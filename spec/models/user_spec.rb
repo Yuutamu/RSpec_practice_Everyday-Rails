@@ -1,43 +1,50 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it "has a valid factory" do
-    expect(FactoryBot.build(:user)).to be_valid
-  end
-
-  it "is valid with a first name, last name and email, and password" do
+  it "姓、名、メール、パスワードがあれば有効であること" do
     user = User.new(
       first_name: "Aaron",
-      last_name:  "Sumner",
-      email:      "tester@example.com",
-      password:   "dottle-nouveau-pavilion-tights-furze",
+      last_name: "Sumner",
+      email: "tester@example.com",
+      password: "dottle-nouveau-pavilion-tights-furze"
     )
     expect(user).to be_valid
   end
-
-  it { is_expected.to validate_presence_of :first_name }
-  it { is_expected.to validate_presence_of :last_name }
-  it { is_expected.to validate_presence_of :email }
-  it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
-
-  it "returns a user's full name as a string" do
-    user = FactoryBot.build(:user, first_name: "John", last_name: "Doe")
-    expect(user.name).to eq "John Doe"
+  it "名がなければ無効であること" do
+    user = User.new(
+      first_name: nil,
+      last_name: "Sumner",
+      email: "tester@example.com",
+      password: "dottle-nouveau-pavilion-tights-furze"
+    )
+    expect(user).to be_invalid
   end
-
-  it "sends a welcome email on account creation" do
-    allow(UserMailer).to \
-      receive_message_chain(:welcome_email, :deliver_later)
-    user = FactoryBot.create(:user)
-    expect(UserMailer).to have_received(:welcome_email).with(user)
+  it "姓がなければ無効であること" do
+    user = User.new(last_name: nil)
+    user.valid?
+    expect(user.errors[:last_name]).to include("can't be blank")
   end
-
-  it "performs geocoding", vcr: true do
-    user = FactoryBot.create(:user, last_sign_in_ip: "161.185.207.20")
-    expect {
-      user.geocode
-    }.to change(user, :location).
-      from(nil).
-      to("Brooklyn, New York, US")
+  it "メールがなければ無効であること" do
+    user = User.new(email: nil)
+    user.valid?
+    expect(user.errors[:email]).to include("can't be blank")
   end
+  it "重複したメールならば無効であること" do
+    # 事前にユーザー生成
+    User.create(
+      first_name:  "Joe",
+      last_name:  "Tester",
+      email:      "tester@example.com",
+      password:   "dottle-nouveau-pavilion-tights-furze",
+    )
+    user = User.new(
+      first_name:  "Joe",
+    last_name:  "Tester",
+    email:      "tester@example.com",
+    password:   "dottle-nouveau-pavilion-tights-furze",
+    )
+    user.valid?
+    expect(user.errors[:email]).to include("has already been taken")  
+  end
+  it "ユーザーのフルネームを文字列として返すこと"
 end

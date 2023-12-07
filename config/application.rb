@@ -25,7 +25,7 @@ module Projects
         view_specs: false, # SystemSPec で UIテストをするので不要
         helper_specs: false,
         routing_specs: false
-      g.factory_bot fase # 4章で利用するFactoryBot 現段階では不要
+      g.factory_bot false # 4章で利用するFactoryBot 現段階では不要
     end
   end
 end
