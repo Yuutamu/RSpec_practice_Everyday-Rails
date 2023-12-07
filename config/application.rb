@@ -21,9 +21,11 @@ module Projects
 
     config.generators do |g|
       g.test_framework :rspec,
-        view_specs: false,
+        fixtures: false, # テストデータベースにレコード作成するファイルの作成をスキップ
+        view_specs: false, # SystemSPec で UIテストをするので不要
         helper_specs: false,
         routing_specs: false
+      g.factory_bot fase # 4章で利用するFactoryBot 現段階では不要
     end
   end
 end
