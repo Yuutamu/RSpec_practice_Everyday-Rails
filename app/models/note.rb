@@ -6,6 +6,7 @@ class Note < ApplicationRecord
 
   validates :message, presence: true
 
+  # note 検索機能
   scope :search, ->(term) {
     where("LOWER(message) LIKE ?", "%#{term.downcase}%")
   }

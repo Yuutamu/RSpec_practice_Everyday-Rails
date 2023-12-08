@@ -39,12 +39,19 @@ RSpec.describe User, type: :model do
     )
     user = User.new(
       first_name:  "Joe",
-    last_name:  "Tester",
-    email:      "tester@example.com",
-    password:   "dottle-nouveau-pavilion-tights-furze",
+      last_name:  "Tester",
+      email:      "tester@example.com",
+      password:   "dottle-nouveau-pavilion-tights-furze",
     )
     user.valid?
-    expect(user.errors[:email]).to include("has already been taken")  
+    expect(user.errors[:email]).to include("has already been taken")
   end
-  it "ユーザーのフルネームを文字列として返すこと"
+  it "ユーザーのフルネームを文字列として返すこと" do
+    user = User.new(
+      first_name:  "Joe",
+      last_name:  "Tester",
+      email:      "tester@example.com",
+    )
+    expect(user.name).to eq "Joe Tester"
+  end
 end
