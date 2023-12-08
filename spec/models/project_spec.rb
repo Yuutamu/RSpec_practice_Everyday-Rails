@@ -49,4 +49,17 @@ RSpec.describe Project, type: :model do
     )
     expect(other_project).to be_valid
   end
+
+  # バリデーションの検証に対して、テスト書ことしたけど nul を許容していたのでスキップ
+  # describe Project, type: :model do
+  #   it "バリデーションの検証" do
+  #     user = Usser.new(
+  #     first_name: "Joe",
+  #     last_name:  "Tester",
+  #     email:      "joetester@example.com",
+  #     password:   "dottle-nouveau-pavilion-tights-furze",
+  #     )
+  #   end
+  # end
+
 end
