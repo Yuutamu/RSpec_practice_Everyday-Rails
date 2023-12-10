@@ -2,10 +2,7 @@ FactoryBot.define do
   factory :note do
     message { "My important note." }
     association :project
-    user { project.owner }
-
-    trait :with_attachment do
-      attachment { Rack::Test::UploadedFile.new("#{Rails.root}/spec/files/attachment.jpg", 'image/jpeg') }
-    end
+    # association :user # この記述だとユーザーが二人以上作成されてしまう
+    user { project.owner} # owner と記述する factorybotの難しさ。 P69 inspectメソッドで調べる方法便利だな。
   end
 end
