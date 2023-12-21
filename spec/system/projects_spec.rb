@@ -35,4 +35,3 @@ RSpec.describe "Project", type: :system do
   #   click_link "New Project"
   # end
 end
-
