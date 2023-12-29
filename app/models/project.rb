@@ -10,5 +10,4 @@ class Project < ApplicationRecord
   def late? # RSpec が自動で認識して、late に対して真偽値返してくれる
     due_on.in_time_zone < Date.current.in_time_zone
   end
-
 end
